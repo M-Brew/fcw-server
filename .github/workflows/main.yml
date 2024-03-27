@@ -11,9 +11,9 @@ jobs:
       - name: install ssh keys
         run:
           install -m 600 -D /dev/null ~/.ssh/id_rsa2
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa2
-          ssh_keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /root/.ssh/id_rsa2
+          ssh_keyscan -H ${{ secrets.SSH_HOST }} > /root/.ssh/known_hosts
       - name: connect and pull
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull"
       - name: clean up
-        run: rm -rf ~/.ssh
+        run: rm -rf /root/.ssh
