@@ -15,3 +15,16 @@ jobs:
         run: docker build -t brew3/fcw-server .
       - name: Publish image to docker hub
         run: docker push brew3/fcw-server:latest
+  deploy:
+    name: deploy
+    needs: build
+    runs-on: [server-runner]
+    steps:
+      - name: Pull latest image from docker hub
+        run: docker pull brew3/fcw-server:latest
+        working-directory: /app
+      - name: Re-run docker compose
+        run: docker-compose up -d
+        working-directory: /app
+      - name: Remove old image
+        run: docker image prune -f
